@@ -1,0 +1,8 @@
+spring:
+  ai:
+    dashscope:
+      api-key: ${apikey.qwen}
+      chat:
+        options:
+          #qwen-plus\deepseek-v3\deepseek-r1
+          model: deepseek-r1
