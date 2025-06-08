@@ -1,7 +1,7 @@
 spring:
   ai:
     dashscope:
-      api-key: ${apikey.qwen}
+      api-key: ${apikey.dashscope}
       chat:
         options:
           #qwen-plus\deepseek-v3\deepseek-r1
