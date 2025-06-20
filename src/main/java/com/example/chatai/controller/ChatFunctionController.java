@@ -1,20 +1,15 @@
 package com.example.chatai.controller;
 
-import com.example.chatai.pojo.ChatDTO;
 import com.example.chatai.service.ChatService;
+import com.example.chatai.service.ChatSseService;
 import io.swagger.v3.oas.annotations.Operation;
-import jakarta.validation.Valid;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.experimental.Accessors;
+import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Flux;
 
 /**
  * @author wuhongzhang@vhsoft.com.cn
@@ -25,6 +20,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class ChatFunctionController {
     @Autowired
     private ChatService chatService;
+    @Autowired
+    private ChatSseService chatFluxService;
 
     record DTO(String content){
 
@@ -35,5 +32,15 @@ public class ChatFunctionController {
     public String chat(@RequestBody DTO dto) {
         return chatService.chat(dto.content());
     }
+
+
+
+    @Operation(summary = "sse响应")
+    @PostMapping(path = "/chatbot/chat/sse", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public Flux<ChatResponse> chatFlux(@RequestBody DTO dto) {
+        return chatFluxService.chatFlux(dto.content(),"112312");
+    }
+
+
 
 }
